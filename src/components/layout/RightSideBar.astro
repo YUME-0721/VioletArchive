@@ -1,5 +1,4 @@
 ---
-import type { MarkdownHeading } from "astro";
 import Announcement from "@/components/widget/Announcement.astro";
 import Calendar from "@/components/widget/Calendar.astro";
 import Categories from "@/components/widget/Categories.astro";
@@ -12,10 +11,9 @@ import { widgetManager } from "@/utils/widget-manager";
 
 interface Props {
 	class?: string;
-	headings?: MarkdownHeading[];
 }
 
-const { class: className, headings } = Astro.props;
+const { class: className } = Astro.props;
 
 // 获取右侧边栏的组件列表
 const topComponents = widgetManager.getComponentsByPosition("top", "right");
@@ -50,7 +48,6 @@ function renderComponent(component: any, index: number, _components: any[]) {
 		props: {
 			class: componentClass,
 			style: componentStyle,
-			headings: component.type === "toc" ? headings : undefined,
 			...component.customProps,
 		},
 	};

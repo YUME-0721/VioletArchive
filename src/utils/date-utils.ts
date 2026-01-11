@@ -14,6 +14,8 @@ export function formatDateI18n(dateString: string): string {
 		year: "numeric",
 		month: "long",
 		day: "numeric",
+		hour: "numeric",
+		minute: "numeric",
 	};
 
 	// 语言代码映射
@@ -37,3 +39,4 @@ export function formatDateI18n(dateString: string): string {
 	const locale = localeMap[lang] || "en-US";
 	return date.toLocaleDateString(locale, options);
 }
+

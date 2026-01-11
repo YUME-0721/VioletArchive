@@ -2,6 +2,7 @@ import {
 	DARK_MODE,
 	DEFAULT_THEME,
 	LIGHT_MODE,
+	AUTO_MODE,
 	// WALLPAPER_BANNER,
 } from "@constants/constants";
 import { siteConfig } from "@/config";
@@ -44,6 +45,12 @@ export function applyThemeToDocument(theme: LIGHT_DARK_MODE) {
 			break;
 		case DARK_MODE:
 			targetIsDark = true;
+			break;
+		case AUTO_MODE:
+			// 自动模式：根据系统偏好设置
+			targetIsDark = window.matchMedia(
+				"(prefers-color-scheme: dark)",
+			).matches;
 			break;
 		default:
 			// 处理默认情况，使用当前主题状态
@@ -165,3 +172,4 @@ export function setWallpaperMode(mode: WALLPAPER_MODE): void {
 		new CustomEvent("wallpaper-mode-change", { detail: { mode } }),
 	);
 }
+

@@ -166,7 +166,7 @@ export const siteConfig: SiteConfig = {
 	},
 	toc: {
 		enable: true, // 启用目录功能
-		mode: "float", // 目录显示模式："float" 悬浮按钮模式，"sidebar" 侧边栏模式
+		mode: "sidebar", // 目录显示模式："float" 悬浮按钮模式，"sidebar" 侧边栏模式
 		depth: 2, // 目录深度，1-6，1 表示只显示 h1 标题，2 表示显示 h1 和 h2 标题，依此类推
 		useJapaneseBadge: false, // 使用日语假名标记（あいうえお...）代替数字，开启后会将 1、2、3... 改为 あ、い、う...
 	},
@@ -186,19 +186,16 @@ export const siteConfig: SiteConfig = {
 		// 注意：自定义字体需要在 src/styles/main.css 中引入字体文件
 		// 注意：字体子集优化功能目前仅支持 TTF 格式字体,开启后需要在生产环境才能看到效果,在Dev环境下显示的是浏览器默认字体!
 		asciiFont: {
-			// 英文字体 - 优先级最高
-			// 指定为英文字体则无论字体包含多大范围，都只会保留 ASCII 字符子集
 			fontFamily: "ZenMaruGothic-Medium",
 			fontWeight: "400",
 			localFonts: ["ZenMaruGothic-Medium.ttf"],
-			enableCompress: true, // 启用字体子集优化，减少字体文件大小
+			enableCompress: false,
 		},
 		cjkFont: {
-			// 中日韩字体 - 作为回退字体
 			fontFamily: "萝莉体 第二版",
 			fontWeight: "500",
 			localFonts: ["萝莉体 第二版.ttf"],
-			enableCompress: true, // 启用字体子集优化，减少字体文件大小
+			enableCompress: false,
 		},
 	},
 	showLastModified: true, // 控制“上次编辑”卡片显示的开关
@@ -492,8 +489,8 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			enable: true,
 			// 组件显示顺序
 			order: 3,
-			// 组件位置："sticky" 表示粘性定位，可滚动
-			position: "sticky",
+			// 组件位置："top" 表示固定在顶部
+			position: "top",
 			// 所在侧边栏
 			sidebar: "left",
 			// CSS 类名
@@ -505,6 +502,22 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 				// 折叠阈值：当分类数量超过5个时自动折叠
 				collapseThreshold: 5,
 			},
+		},
+		{
+			// 组件类型：目录组件
+			type: "toc",
+			// 是否启用该组件
+			enable: true,
+			// 组件显示顺序
+			order: 4,
+			// 组件位置："sticky" 表示粘性定位，滚动时固定
+			position: "sticky",
+			// 所在侧边栏
+			sidebar: "left",
+			// CSS 类名
+			class: "onload-animation",
+			// 动画延迟时间
+			animationDelay: 200,
 		},
 		{
 			// 组件类型：标签组件

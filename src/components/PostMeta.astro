@@ -115,12 +115,12 @@ const {
     
     <!-- 访问量（首页不显示，且umami.enabled为true时显示） -->
     {!isHome && umamiEnabled && id && (
-        <div class="flex items-center">
+        <a href="https://cloud.umami.is/share/WE5BJgE4PeQprriu" target="_blank" rel="noopener noreferrer" class="flex items-center hover:text-[var(--primary)] transition">
             <div class="meta-icon">
                 <Icon name="material-symbols:visibility-outline-rounded" class="text-xl"></Icon>
             </div>
             <span class="text-50 text-sm font-medium" id="page-views-display">统计加载中...</span>
-        </div>
+        </a>
     )}
 </div>
 

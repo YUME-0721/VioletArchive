@@ -1,5 +1,4 @@
 ---
-import type { MarkdownHeading } from "astro";
 import { widgetManager } from "../../utils/widget-manager";
 import Announcement from "./Announcement.astro";
 import Calendar from "./Calendar.astro";
@@ -12,11 +11,10 @@ import TOC from "./TOC.astro";
 
 interface Props {
 	class?: string;
-	headings?: MarkdownHeading[];
 	isBothSidebarMode?: boolean;
 }
 
-const { class: className, headings } = Astro.props;
+const { class: className } = Astro.props;
 
 // 获取配置的组件列表
 // 在双侧边栏模式下，桌面端只获取左侧组件
@@ -55,7 +53,6 @@ function renderComponent(component: any, index: number, _components: any[]) {
 		props: {
 			class: componentClass,
 			style: componentStyle,
-			headings: component.type === "toc" ? headings : undefined,
 			...component.customProps,
 		},
 	};
@@ -78,7 +75,7 @@ function renderComponent(component: any, index: number, _components: any[]) {
 	
 	<!-- 粘性组件区域 -->
 	{stickyComponents.length > 0 && (
-		<div id="sidebar-sticky" class="transition-all duration-700 flex flex-col w-full gap-4 top-4 sticky top-4">
+		<div id="sidebar-sticky" class="transition-all duration-700 flex flex-col w-full gap-4 top-4 sticky">
 			{stickyComponents.map((component, index) => {
 				const renderData = renderComponent(component, index, stickyComponents);
 				if (!renderData) return null;
