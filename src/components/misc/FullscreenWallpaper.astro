@@ -22,10 +22,12 @@ const getImageSources = async () => {
 			const apiImages = text.split("\n").filter((line) => line.trim());
 
 			if (apiImages.length > 0) {
+				// 将HTTP URL转换为HTTPS，避免混合内容错误
+				const secureImages = apiImages.map(url => url.replace(/^http:/, 'https:'));
 				// 将API图片同时用于桌面端和移动端
 				return {
-					desktop: apiImages,
-					mobile: apiImages,
+					desktop: secureImages,
+					mobile: secureImages,
 				};
 			}
 		} catch (error) {

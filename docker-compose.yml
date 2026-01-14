@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+    mizuki-blog:
+        build: .
+        container_name: violet-blog
+        ports:
+            - "25090:80"
+        restart: always
+        environment:
+            - NODE_ENV=production
+

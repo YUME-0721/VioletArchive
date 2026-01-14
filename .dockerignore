@@ -1,0 +1,14 @@
+.git
+node_modules
+dist
+.gitignore
+Dockerfile
+.dockerignore
+.vscode
+.github
+docs
+scripts
+.astro
+frontmatter.json
+pagefind.yml
+vercel.json
