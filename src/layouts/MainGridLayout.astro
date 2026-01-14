@@ -60,7 +60,8 @@ interface Props {
 const getBannerImages = async () => {
 	let bannerSrc = siteConfig.banner.src;
 
-	// 如果启用了图片API，获取API图片
+	// 如果启用了图片API，在构建时获取图片作为初始显示
+	// 这样可以避免初始加载时的闪烁
 	if (siteConfig.banner.imageApi?.enable && siteConfig.banner.imageApi?.url) {
 		try {
 			const response = await fetch(siteConfig.banner.imageApi.url);
@@ -509,6 +510,58 @@ const transparentClass = shouldEnableTransparency
 			}
 		});
 	});
+	
+	// 动态获取图片API的图片列表
+	async function fetchImagesFromAPI() {
+		const apiUrl = 'https://pixport.072199.xyz/image_api.php?format=text';
+		try {
+			const response = await fetch(apiUrl);
+			const text = await response.text();
+			const apiImages = text.split('\n').filter((line) => line.trim());
+			
+			if (apiImages.length > 0) {
+				// 将HTTP URL转换为HTTPS，避免混合内容错误
+				const secureImages = apiImages.map(url => url.replace(/^http:/, 'https:'));
+				return secureImages;
+			}
+		} catch (error) {
+			console.warn('Failed to fetch images from API:', error);
+		}
+		return [];
+	}
+	
+	// 动态更新banner图片
+	async function updateBannerImages() {
+		const images = await fetchImagesFromAPI();
+		
+		if (images.length === 0) {
+			return;
+		}
+		
+		// 随机选择一张图片
+		const randomIndex = Math.floor(Math.random() * images.length);
+		const randomImage = images[randomIndex];
+		
+		// 更新桌面端banner图片 (#banner 是 ImageWrapper，里面的 img 才是真正的图片元素)
+		const desktopBanner = document.querySelector('#banner img');
+		if (desktopBanner) {
+			desktopBanner.src = randomImage;
+		}
+		
+		// 更新移动端banner图片 (选择 banner-wrapper 中第一个 block lg:hidden 的 img)
+		const mobileBanner = document.querySelector('#banner-wrapper .block.lg\\:hidden img');
+		if (mobileBanner) {
+			mobileBanner.src = randomImage;
+		}
+	}
+	
+	// 页面加载时更新图片
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', updateBannerImages);
+	} else {
+		updateBannerImages();
+	}
+	
 	// 在页面完全加载后，再次确认布局模式是否正确
 	if (document.readyState === 'loading') {
 		document.addEventListener('DOMContentLoaded', function() {
